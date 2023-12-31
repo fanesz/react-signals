@@ -5,7 +5,7 @@ Signals basically remove the need for using useState and useEffect to manage sta
 The old way with useState and useEffect you can see on the [old-way](https://github.com/fanesz/react-signals/tree/old-way) branch.
 
 ## Code Differences
-If you lazy to took a look between those 2 branches, here the code comparison
+If you lazy to take a look between those 2 branches, here is the code comparison:
 
 ### Fetching data
 #### old-way:
