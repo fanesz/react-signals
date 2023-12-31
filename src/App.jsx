@@ -1,6 +1,7 @@
 import { effect, signal, computed } from "@preact/signals-react";
 import './App.css'
 import Navbar from "./components/Navbar";
+import "@preact/signals-react/auto"
 
 export const pokemon = signal({});
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=5&offset=";
