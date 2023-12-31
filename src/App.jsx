@@ -1,40 +1,42 @@
-import { effect, signal, computed } from "@preact/signals-react";
 import './App.css'
 import Navbar from "./components/Navbar";
-
-export const pokemon = signal({});
-const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=5&offset=";
-const page = signal(0);
-
-effect(async () => {
-  const res = await fetch(BASE_URL + page.value * 5);
-  const data = await res.json();
-  pokemon.value = data;
-})
-
-const computedPokemon = computed(() => {
-  return pokemon.value.results?.map((item, index) => (
-    <div key={index}>
-      [{index + page * 5}] {item.name}
-    </div>
-  ))
-});
-
+import { useEffect, useState } from "react";
 
 function App() {
+  const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=5&offset=";
+  const [pokemon, setPokemon] = useState({});
+  const [page, setPage] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch(BASE_URL + page * 5);
+      const data = await res.json();
+      setPokemon(data);
+    }
+    fetchData();
+  }, []);
+
+  const listPokemon = () => {
+    return pokemon.results?.map((item, index) => (
+      <div key={index}>
+        [{index + page * 5}] {item.name}
+      </div>
+    ))
+  };
+
   return (
     <div>
 
-      <Navbar />
+      <Navbar pokemon={pokemon} />
 
       <div>
         Pokemon list:
-        {computedPokemon}
+        {listPokemon()}
       </div>
 
       <div>
-        <button onClick={() => page.value -= 1}>Previous Page</button>
-        <button onClick={() => page.value += 1}>Next Page</button>
+        <button onClick={() => setPage(prev => prev - 1)}>Previous Page</button>
+        <button onClick={() => setPage(prev => prev + 1)}>Next Page</button>
         <div>Current page: {page}</div>
       </div>
 
